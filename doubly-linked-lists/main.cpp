@@ -25,7 +25,8 @@ private:
   int length;
 
 public:
-  DoublyLinkedList() {
+  DoublyLinkedList()
+  {
     this->head = nullptr;
     length = 0;
   }
@@ -246,7 +247,8 @@ public:
     Node *forward = head;
     Node *backward = tail;
 
-    if (length == 1) {
+    if (length == 1)
+    {
       return true;
     }
 
@@ -267,8 +269,10 @@ public:
     return true;
   }
 
-  void reverse() {
-    if (head == nullptr || length <= 1) {
+  void reverse()
+  {
+    if (head == nullptr || length <= 1)
+    {
       return;
     }
 
@@ -276,7 +280,8 @@ public:
     Node *current = head;
     Node *temp = nullptr;
 
-    while (current) {
+    while (current)
+    {
       current->prev = current->next;
       current->next = temp;
       temp = current;
@@ -287,13 +292,16 @@ public:
     tail = dummy;
   }
 
-  void partitionList(int val) {
+  void partitionList(int val)
+  {
     DoublyLinkedList *d1 = new DoublyLinkedList();
     DoublyLinkedList *d2 = new DoublyLinkedList();
     Node *curr = head;
 
-    while (curr) {
-      if (curr->value < val) {
+    while (curr)
+    {
+      if (curr->value < val)
+      {
         d1->append(curr->value);
       }
       else
@@ -303,7 +311,8 @@ public:
       curr = curr->next;
     }
 
-    if (d1->head && d2->head) {
+    if (d1->head && d2->head)
+    {
       d1->tail->next = d2->head;
       d2->head->prev = d1->tail;
       head = d1->head;
@@ -318,22 +327,73 @@ public:
     {
       head = d2->head;
       tail = d2->tail;
-    } else {
+    }
+    else
+    {
       head = nullptr;
       tail = nullptr;
     }
   }
 
-  void reverseBetween(int startIndex, int endIndex) {
-    Node *dummy = head;
-    Node *first = get(startIndex);
-    Node *last = get(endIndex);
-    Node *prev = first->prev;
-    Node *next = last->next;
+  void reverseBetween(int startIndex, int endIndex)
+  {
+    if (length < 2 || startIndex == endIndex)
+    {
+      return;
+    }
 
-    prev->next = first->next;
-    first->next = first;
-    first->next = next;
+    Node *dummy = new Node(0);
+    dummy->next = head;
+
+    Node *prev = dummy;
+    for (int i = 0; i < startIndex; i++)
+    {
+      prev = prev->next;
+    }
+    Node *first = prev->next;
+    Node *after = first->next;
+
+    for (int i = 0; i < endIndex - startIndex; i++)
+    {
+      first->next = after->next;
+      after->next = prev->next;
+      prev->next = after;
+      after = first->next;
+    }
+
+    head = dummy->next;
+    delete dummy;
+  }
+
+  void swapPairs() {
+    if (length < 2) {
+      return;
+    }
+
+    Node *dummy = new Node(0);
+    dummy->next = head;
+    Node *prev = dummy;
+    Node *first = head;
+    Node *second = nullptr;
+
+    while (first) {
+      second = first->next;
+      if (second == nullptr) {
+        break;
+      }
+      prev->next = second;
+
+      first->next = second->next;
+      second->prev = first->prev;
+      first->prev = second;
+      second->next = first;
+
+      prev = first;
+      first = first->next;
+    }
+
+    head = dummy->next;
+    delete dummy;
   }
 };
 
@@ -383,5 +443,14 @@ int main()
   myDll->append(9);
   cout << "Partition List: ";
   myDll->partitionList(12);
+  myDll->printList();
+
+  myDll->append(15);
+  cout << "Reverse Between: ";
+  myDll->reverseBetween(1, 3);
+  myDll->printList();
+
+  cout << "Swap Pairs: ";
+  myDll->swapPairs();
   myDll->printList();
 }
