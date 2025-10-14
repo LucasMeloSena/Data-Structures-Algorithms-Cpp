@@ -53,6 +53,21 @@ public:
     }
   }
 
+  void getHead()
+  {
+    cout << "\nHead: " << head->value << endl;
+  }
+
+  void getTail()
+  {
+    cout << "Tail: " << tail->value << endl;
+  }
+
+  void getLength()
+  {
+    cout << "Length: " << length << endl;
+  }
+
   void append(int value)
   {
     Node *newNode = new Node(value);
@@ -203,21 +218,6 @@ public:
     previous->next = temp->next;
     delete temp;
     length--;
-  }
-
-  void getHead()
-  {
-    cout << "\nHead: " << head->value << endl;
-  }
-
-  void getTail()
-  {
-    cout << "Tail: " << tail->value << endl;
-  }
-
-  void getLength()
-  {
-    cout << "Length: " << length << endl;
   }
 
   void reverse()
