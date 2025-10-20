@@ -57,8 +57,10 @@ public:
     height += 1;
   }
 
-  int pop() {
-    if (height == 0) {
+  int pop()
+  {
+    if (height == 0)
+    {
       return INT_MIN;
     }
     Node *removedNode = top;
