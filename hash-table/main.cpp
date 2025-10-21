@@ -118,9 +118,6 @@ int main()
 
   vector<string> myKeys = myHashTable->keys();
   for (auto key : myKeys) {
-    cout << key << " ";
+    cout << key << ",";
   }
-
-  unordered_map<int, bool> myMap;
-  myMap.find(0);
 };
