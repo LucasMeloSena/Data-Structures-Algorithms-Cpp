@@ -88,6 +88,16 @@ public:
     }
     return false;
   }
+
+  void invert(Node *currentNode) {
+    if (currentNode) {
+      Node *left = currentNode->left;
+      currentNode->left = currentNode->right;
+      currentNode->right = left;
+      invert(currentNode->left);
+      invert(currentNode->right);
+    }
+  }
 };
 
 int main()

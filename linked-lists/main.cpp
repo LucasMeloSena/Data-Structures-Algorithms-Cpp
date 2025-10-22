@@ -53,19 +53,19 @@ public:
     }
   }
 
-  void getHead()
+  Node *getHead()
   {
-    cout << "\nHead: " << head->value << endl;
+    return head;
   }
 
-  void getTail()
+  Node *getTail()
   {
-    cout << "Tail: " << tail->value << endl;
+    return tail;
   }
 
-  void getLength()
+  int getLength()
   {
-    cout << "Length: " << length << endl;
+    return length;
   }
 
   void append(int value)
@@ -507,6 +507,50 @@ public:
     }
     head = dummy->next;
   }
+
+  void merge(LinkedList &otherList)
+  {
+    Node *dummy = new Node(0);
+    Node *current = dummy;
+
+    Node *myHead = head;
+    Node *otherHead = otherList.getHead();
+    while (myHead && otherHead)
+    {
+      if (myHead->value < otherHead->value)
+      {
+        current->next = myHead;
+        myHead = myHead->next;
+      }
+      else
+      {
+        current->next = otherHead;
+        otherHead = otherHead->next;
+      }
+      current = current->next;
+    }
+
+    while (myHead)
+    {
+      current->next = myHead;
+      myHead = myHead->next;
+      current = current->next;
+    }
+    while (otherHead)
+    {
+      current->next = otherHead;
+      otherHead = otherHead->next;
+      current = current->next;
+    }
+    this->length = this->length + otherList.length;
+    otherList.head = nullptr;
+    otherList.tail = nullptr;
+    otherList.length = 0;
+
+    tail = current;
+    head = dummy->next;
+    delete dummy;
+  }
 };
 
 int main()
@@ -576,6 +620,19 @@ int main()
   binaryLinkedList->append(1);
   binaryLinkedList->append(1);
   binaryLinkedList->binaryToDecimal();
+
+  cout << "Merge two ordered Linked Lists: ";
+  LinkedList *orderedLinkeList = new LinkedList(1);
+  orderedLinkeList->append(3);
+  orderedLinkeList->append(4);
+  LinkedList *orderedLinkeList2 = new LinkedList(5);
+  orderedLinkeList2->append(9);
+  orderedLinkeList2->append(11);
+  orderedLinkeList2->append(12);
+  orderedLinkeList2->append(15);
+
+  orderedLinkeList->merge(*orderedLinkeList2);
+  orderedLinkeList->printList();
 
   return 0;
 }

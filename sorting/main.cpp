@@ -40,26 +40,91 @@ void selectionSort(int array[], int size)
 
 void insertionSort(int array[], int size)
 {
-  for (int i = 1; i < size; i++) {
+  for (int i = 1; i < size; i++)
+  {
     int temp = array[i];
     int j = i - 1;
-    while (j > -1 && temp < array[j]) {
-      array[j+1] = array[j];
+    while (j > -1 && temp < array[j])
+    {
+      array[j + 1] = array[j];
       array[j] = temp;
       j--;
     }
   }
 }
 
+void merge(int array[], int leftIndex, int midIndex, int rightIndex)
+{
+  int leftArrSize = midIndex - leftIndex + 1;
+  int rightArrSize = rightIndex - midIndex;
+
+  int leftArray[leftArrSize];
+  int rightArray[rightArrSize];
+
+  for (int i = 0; i < leftArrSize; i++)
+  {
+    leftArray[i] = array[leftIndex + i];
+  }
+  for (int j = 0; j < rightArrSize; j++)
+  {
+    rightArray[j] = array[midIndex + 1 + j];
+  }
+
+  int index = leftIndex;
+  int i = 0;
+  int j = 0;
+
+  while (i < leftArrSize && j < rightArrSize)
+  {
+    if (leftArray[i] < rightArray[j])
+    {
+      array[index] = leftArray[i];
+      index++;
+      i++;
+    }
+    else if (rightArray[j] < leftArray[i])
+    {
+      array[index] = rightArray[j];
+      index++;
+      j++;
+    }
+  }
+
+  while (i < leftArrSize) {
+    array[index] = leftArray[i];
+    index++;
+    i++;
+  }
+  while (j < rightArrSize) {
+    array[index] = rightArray[j];
+    index++;
+    j++;
+  }
+}
+
+void mergeSort(int array[], int leftIndex, int rightIndex) {
+  if (leftIndex >= rightIndex)
+    return;
+  int midIndex = leftIndex + (rightIndex - leftIndex) / 2;
+  mergeSort(array, leftIndex, midIndex);
+  mergeSort(array, midIndex+1 , rightIndex);
+
+  merge(array, leftIndex, midIndex, rightIndex);
+}
+
 int main()
 {
-  int myArr[] = {6, 4, 2, 5, 1, 3};
+  int myArr[] = {1,3,7,8,2,4,5,6};
   int size = sizeof(myArr) / sizeof(myArr[0]);
+  int leftIndex = 0;
+  int rightIndex = size - 1;
+  int midIndex = (size / 2) - 1;
 
-  bubbleSort(myArr, size);
+  // bubbleSort(myArr, size);
   // selectionSort(myArr, size);
   // insertionSort(myArr, size);
-
+  mergeSort(myArr, leftIndex, rightIndex);
+  
   for (auto num : myArr)
   {
     cout << num << " ";
