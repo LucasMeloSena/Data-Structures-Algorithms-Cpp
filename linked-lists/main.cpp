@@ -376,7 +376,8 @@ public:
     head = beforeHead->head->next;
   }
 
-  void reverseBetween(int m, int n) {
+  void reverseBetween(int m, int n)
+  {
     if (head == nullptr)
       return;
 
@@ -384,24 +385,27 @@ public:
     dummy->next = head;
 
     Node *prev = dummy;
-    for (int i = 0; i < m; i++) {
+    for (int i = 0; i < m; i++)
+    {
       prev = prev->next;
     }
 
     Node *current = prev->next;
     Node *after = current->next;
 
-    for (int i = 0; i < n - m; i++) {
+    for (int i = 0; i < n - m; i++)
+    {
       current->next = after->next;
       after->next = prev->next;
       prev->next = after;
-      after = current->next; 
+      after = current->next;
     }
 
     head = dummy->next;
   }
 
-  void swapPairs() {
+  void swapPairs()
+  {
     Node *dummy = new Node(0);
     dummy->next = head;
 
@@ -412,7 +416,8 @@ public:
     while (first)
     {
       second = first->next;
-      if (second == nullptr) {
+      if (second == nullptr)
+      {
         break;
       }
 
@@ -424,6 +429,82 @@ public:
       first = first->next;
     }
 
+    head = dummy->next;
+  }
+
+  void bubbleSort()
+  {
+    if (length < 2)
+      return;
+    Node *current = head;
+    while (current && current->next)
+    {
+      Node *next = current->next;
+      while (next)
+      {
+        if (next->value < current->value)
+        {
+          int currentValue = current->value;
+          current->value = next->value;
+          next->value = currentValue;
+        }
+        next = next->next;
+      }
+      current = current->next;
+    }
+  }
+
+  void selectionSort()
+  {
+    if (length < 2)
+      return;
+
+    Node *current = head;
+
+    while (current && current->next)
+    {
+      Node *minNode = current;
+      Node *next = current->next;
+      while (next)
+      {
+        if (next->value < minNode->value)
+        {
+          minNode = next;
+        }
+        next = next->next;
+      }
+      if (minNode != current)
+      {
+        int tempValue = current->value;
+        current->value = minNode->value;
+        minNode->value = tempValue;
+      }
+      current = current->next;
+    }
+  }
+
+  void insertionSort()
+  {
+    if (length < 2)
+      return;
+
+    Node *dummy = new Node(0);
+    Node *current = head;
+    while (current)
+    {
+      Node *next = current->next;
+      Node *prev = dummy;
+
+      while (prev->next && prev->next->value < current->value)
+      {
+        prev = prev->next;
+      }
+
+      current->next = prev->next;
+      prev->next = current;
+
+      current = next;
+    }
     head = dummy->next;
   }
 };
@@ -471,11 +552,13 @@ int main()
   cout << "List after reversing, removing duplicates and partition: ";
   myLinkedList->printList();
 
-  cout << endl << "Reverse Between: ";
+  cout << endl
+       << "Reverse Between: ";
   myLinkedList->reverseBetween(1, 3);
   myLinkedList->printList();
 
-  cout << endl << "Swap Pairs: ";
+  cout << endl
+       << "Swap Pairs: ";
   myLinkedList->swapPairs();
   myLinkedList->printList();
 
